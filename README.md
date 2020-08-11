@@ -19,7 +19,7 @@ We provide perspective renderings of panorama images. The field of views of the 
 
 <img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/map_big.png">
 
-HoliCity provides refined geolocation of each panorama and perspective image in the coordinate of WGS-84 so it is possible to show them on Google Maps. The following table summarizes the meanings of entries of geolocations that are specific to **the viewpoints (panoramas)**.
+HoliCity provides refined geolocation of each viewpoint and its corresponding perspective images in the coordinate of WGS-84, i.e., the longitude and latitude. The above figure shows the viewpoints on Google Maps. The following table summarizes the meanings of entries of geolocation annotations that are specific to **the viewpoints (panoramas)**.
 
 | Entry        | Explanations                                                 |
 | :----------- | ------------------------------------------------------------ |
@@ -28,12 +28,12 @@ HoliCity provides refined geolocation of each panorama and perspective image in 
 | `tilt_yaw`   | Tilt direction of the panorama camera with respect to the north. Such tilt exists because the street-view car might be on a slope. |
 | `tilt_pitch` | Tilt degree of the panorama camera.                          |
 
-The following code snippet converts a point in the space of the CAD models to the space of a local viewpoint.
+The following code snippet converts a point in the space of the CAD model to the space of a local viewpoint.
 
 ```python        loc, panoYaw, tiltYaw, tiltPitch = x[:3], x[3], x[4], x[5]
 from vispy.util.transforms import rotate
 def world_to_panorama(xyz, loc, pano_yaw, tilt_yaw, tilt_pitch):
-    """Project xyz (in the space of the CAD models) to the space of a local view point."""
+    """Project xyz (a point in the space of the CAD model) to the space of a local viewpoint."""
     axis = np.cross([np.cos(pano_yaw), np.sin(tilt_yaw), 0], [0, 0, 1])
     R = (rotate(pano_yaw, [0, 0, 1]) @ rotate(tilt_pitch, axis))[:3, :3]
     return xyz @ R
@@ -53,7 +53,7 @@ def draw_point_on_panorama(pp, panorama_image):
     plt.show()
 ```
 
-The following table summarizes the meanings of entries of geolocations that are specific to **the perspective renderings**.
+The following table summarizes the meanings of entries of geolocation annotations that are specific to **the perspective renderings**.
 
 | Entry   | Explanations                                                 |
 | ------- | ------------------------------------------------------------ |
@@ -68,19 +68,19 @@ Currently, [AccuCities](https://www.accucities.com/new-3d-london-samples-cover-f
 
 ## Holistic Surface Segmentation
 
-We segment the surface of the 3D CAD model based on the (approximate) local curvature.  [Xili Dai](https://github.com/Delay-Xili/try_detectron2/) provides a reference MaskRCNN implementation of surface segmentation on HoliCity.
+We segment the surface of the 3D CAD model based on the (approximate) local curvature.  We maintain [a reference implementation of surface segmentation with MaskRCNN on the HoliCity dataset](https://github.com/Delay-Xili/HoliCity-MaskRCNN).
 
 <img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/surface-segmentations-pazo2.jpg">
 
 ### 3D Planes
 
-For each surface segment, we approximate it using a 3D plane with equation <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w%5ETx&amp;plus;1%3D0">. We provide the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> for the fitted plane of each surface segment.  The plane fitting is done on the global level of the CAD model.  Surface segments and planes exclude trees.
+For each surface segment, we approximate it with a 3D plane whose equation is <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w%5ETx&amp;plus;1%3D0">. We provide the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> for the fitted plane of each surface segment.  The plane fitting is done on the global level of the CAD model.  Surface segments and planes exclude trees.
 
-`plane.py`  provides the example code showing how to parse the plane parameters and draw depth maps and normal maps. We note that there are some errors between the ground truth depth maps and depth maps derived from the plane parameters due to the global plane fitting, especially for large planes such as the ground.
+`plane.py`  provides the example code showing how to parse the plane parameters and draw depth maps and normal maps accordingly. We note that there is some difference between the ground truth depth maps and the depth maps derived from the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> due to the error from global plane fitting, especially for large planes such as the ground.
 
 ## Low-level 3D Representations
 
-We provide the renderings of depth maps and normal maps for each panorama image. The unit of depth maps is the meter. We note that HoliCity does not include moving objects such as cars and pedestrians for now.
+We provide renderings of depth maps and normal maps for each panorama image. The unit of depth maps is the meter. We note that HoliCity does not include moving objects such as cars and pedestrians for now.
 
 ## Semantic Segmentation
 
