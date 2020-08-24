@@ -13,7 +13,7 @@ The panorama images are stored with [equirectangular projection](https://en.wiki
 
 ## Images
 
-We provide perspective renderings of panorama images. The field of views of the current renderings are 90 degrees.
+We provide perspective renderings of panorama images. **The field of views of all the current renderings are 90 degrees.**
 
 ## Geolocations
 
@@ -78,13 +78,20 @@ For each surface segment, we approximate it with a 3D plane whose equation is <i
 
 `plane.py`  provides the example code showing how to parse the plane parameters and draw depth maps and normal maps accordingly. We note that there is some difference between the ground truth depth maps and the depth maps derived from the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> due to the error from global plane fitting, especially for large planes such as the ground.
 
+## Coordinate Systems
+For normal maps and vanishing points, the coordinate system of the camera in HoliCity follows the convention of OpenGL: The camera is placed at (0, 0, 0).  The x axis is toward the right of the image and the y axis is upward. The z axis points out of the screen to form the right-hand coordinate system, which means that the image plane is at  <img src="https://latex.codecogs.com/svg.latex?z=-1">.
+
 ## Low-level 3D Representations
 
-We provide renderings of depth maps and normal maps for each panorama image. The unit of depth maps is the meter. We note that HoliCity does not include moving objects such as cars and pedestrians for now.
+We provide renderings of depth maps and normal maps for each perspective image. The unit of depth maps is the meter. Renderings with the suffix `_HD` have more details than the renderings with the `_LD` suffix. *We note that the low-level represesntaions currently do not include moving objects such as cars and pedestrians.*
+
+## Vanishing Points
+
+We provide the extracted vanishing points using the script `normal2vpts.py`. 
 
 ## Semantic Segmentation
 
-We provide the semantic segmentation for perspective images. The following table shows the meaning of the labels.
+We provide the semantic segmentation for all the perspective images. The following table shows the meaning of the labels.
 
 | Values | Meaning        |
 | ------ | -------------- |
@@ -94,12 +101,6 @@ We provide the semantic segmentation for perspective images. The following table
 | 3      | Terrains       |
 | 4      | Trees          |
 | 5      | Others         |
-
-
-
-## Vanishing Points
-
-We provide the extracted vanishing points using the script `normal2vpts.py`.
 
 ## Acknowledgment
 
