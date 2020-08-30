@@ -70,7 +70,7 @@ Currently, [AccuCities](https://www.accucities.com/new-3d-london-samples-cover-f
 
 <img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/surface-segmentations-pazo2.jpg">
 
-We segment the surface of the 3D CAD model based on (approximate) local curvature.  The **reference MaskRCNN implementation** used in our paper can be found [here](https://github.com/Delay-Xili/HoliCity-MaskRCNN).
+We segment the surface of the 3D CAD model based on (approximate) local curvature.  The **reference MaskRCNN implementation** used in our paper can be found [here (HoliCity-MaskRCNN)](https://github.com/Delay-Xili/HoliCity-MaskRCNN).
 
 ### 3D Planes
 
