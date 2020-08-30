@@ -24,12 +24,12 @@ class ShapeNetDataset(Dataset):
         prefix = self.filelist[idx]
         image = cv2.imread(f"{prefix}_imag.jpg", -1).astype(np.float32) / 255.0
         plane_mask = cv2.imread(f"{prefix}_plan.jpng", -1)
-        with open(f"{prefix}_plan.npz") as N:
+        with np.load(f"{prefix}_plan.npz") as N:
             plane_normal = N["ws"]
 
-        with open(f"{prefix}_dpth.npz") as N:
+        with np.load(f"{prefix}_dpth.npz") as N:
             depth = N["depth"]
-        with open(f"{prefix}_nrml.npz") as N:
+        with np.load(f"{prefix}_nrml.npz") as N:
             normal = N["normal"]
 
         return {

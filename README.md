@@ -13,7 +13,9 @@ The panorama images are stored with [equirectangular projection](https://en.wiki
 
 ## Images
 
-We provide perspective renderings of panorama images. **The field of views of all the current renderings are 90 degrees.**
+We provide perspective renderings of panorama images. The field of views of all the current renderings are 90 degrees and the principal point is at the center of the image.  In other words, the OpenCV camera instrinsic matrix is
+
+<img src="https://latex.codecogs.com/svg.latex?\begin{bmatrix}256%20&%20&%20256%20\\%20&%20256%20&%20256%20\\&%20&%201\end{bmatrix}."/>
 
 ## Geolocations
 
@@ -68,7 +70,7 @@ Currently, [AccuCities](https://www.accucities.com/new-3d-london-samples-cover-f
 
 ## Holistic Surface Segmentation
 
-<img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/surface-segmentations-pazo2.jpg">
+<img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/surface-segmentations-pazo2.jpg"/>
 
 We segment the surface of the 3D CAD model based on (approximate) local curvature.  The **reference MaskRCNN implementation** used in our paper can be found [here (HoliCity-MaskRCNN)](https://github.com/Delay-Xili/HoliCity-MaskRCNN).
 
