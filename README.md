@@ -13,9 +13,7 @@ The panorama images are stored with [equirectangular projection](https://en.wiki
 
 ## Images
 
-We provide perspective renderings of panorama images. The field of views of all the current renderings are 90 degrees and the principal point is at the center of the image.  In other words, for a image with resolution <img src="https://latex.codecogs.com/svg.latex?512%20\times%20512">, the OpenCV camera instrinsic matrix is
-
-<p align="center"><img src="https://latex.codecogs.com/svg.latex?\begin{bmatrix}256%20&%20&%20256%20\\%20&%20256%20&%20256%20\\&%20&%201\end{bmatrix}."/></p>
+We provide perspective renderings of panorama images. The field of views of all the current renderings are 90 degrees and the principal point is at the center of the image.
 
 ## Geolocations
 
@@ -109,13 +107,23 @@ For each surface segment, we approximate it with a 3D plane whose equation is <i
 
 `plane.py`  provides the example code showing how to parse the plane parameters and draw depth maps and normal maps accordingly. We note that there is some difference between the ground truth depth maps and the depth maps derived from the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> due to the error from global plane fitting, especially for large planes such as the ground.
 
-## Coordinate Systems
-For normal maps and vanishing points, the coordinate system of the camera in HoliCity follows the convention of OpenGL: The camera is placed at (0, 0, 0).  The x axis is toward the right of the image and the y axis is upward. The z axis points out of the screen to form the right-hand coordinate system, which means that the image plane is at  <img src="https://latex.codecogs.com/svg.latex?z=-1">.
-
 ## Low-level 3D Representations
 
 We provide renderings of depth maps and normal maps for each perspective image. The unit of depth maps is the meter, which is the same as the unit of the CAD model. Renderings with the suffix `_HD` have more details than the renderings with the `_LD` suffix. *We note that the low-level represesntaions currently do not include moving objects such as cars and pedestrians.*
 
+
+## Coordinate Systems
+For normal maps and vanishing points, the coordinate system of the camera in HoliCity follows the convention of OpenGL: The camera is placed at (0, 0, 0).  The x axis is toward the right of the image and the y axis is upward. The z axis points out of the screen to form the right-hand coordinate system, which means that the image plane is at  <img src="https://latex.codecogs.com/svg.latex?z=-1">.
+
+The camera space coordinate can be constructed from values in depth maps with the following code:
+````python
+def transformation_matrix(y, x, depth_map):
+    px = (x - 255.5) / 256
+    py = (-y + 255.5) / 256
+    pz = depth[y, x, 0]
+    return px * pz, py * pz, -pz
+````
+   
 ## Vanishing Points
 
 We provide the extracted vanishing points using the script `normal2vpts.py`. 
