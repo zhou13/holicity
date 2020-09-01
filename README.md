@@ -59,10 +59,39 @@ The following table summarizes the meanings of entries of geolocation annotation
 
 | Entry   | Explanations                                                 |
 | ------- | ------------------------------------------------------------ |
-| `fov`   | Field of views of panorama renderings.                       |
+| `R`     | The <img src="https://latex.codecogs.com/svg.latex?4\times4"> rotation and translation matrix that transforms the world coordinate of the CAD models to the camera space. This entry is derived from `loc`, `yaw`, and `pitch`. |
+| `q`     | The rotational quaternion derived from `R`. Useful for training networks such as PoseNet. |
+| `fov`   | The field of view.                                           |
 | `yaw`   | The direction of the camera with respect to the north.       |
 | `pitch` | The direction of the camera with respect to the horizontal plane. Example: 0 means cameras are pointed horizontally and 90 means cameras are pointed toward the sky. |
-| `tilt`  | Currently, this entry does not exist. All the perspective renderings have zero tilt, which means that the up-forward planes of cameras are always perpendicular to the horizontal plane. |
+| `tilt`  | Currently, this entry is not used. All the perspective renderings have zero tilt, which means that the up-forward planes of cameras are always perpendicular to the horizontal plane. |
+
+The following code snippet computes `R` from `loc`, `yaw`, and `pitch`.
+
+````python
+def transformation_matrix(loc, yaw, pitch):
+    """Computes 4x4 world-to-camera transformation matrix"""
+    yaw = -yaw * np.pi / 180 + np.pi / 2
+    pitch = pitch * np.pi / 180
+    return lookat(
+        loc,
+        [np.cos(pitch) * np.cos(yaw), np.cos(pitch) * np.sin(yaw), np.sin(pitch)],
+        [0, 0, 1],
+    )
+
+def lookat(position, forward, up=[0, 1, 0]):
+    """Computes 4x4 transformation matrix to put camera looking at look point."""
+    c = np.asarray(position).astype(float)
+    w = -np.asarray(forward).astype(float)
+    u = np.cross(up, w)
+    v = np.cross(w, u)
+    u /= LA.norm(u)
+    v /= LA.norm(v)
+    w /= LA.norm(w)
+    return np.r_[u, u.dot(-c), v, v.dot(-c), w, w.dot(-c), 0, 0, 0, 1].reshape(4, 4)
+````
+
+
 
 ## City CAD Models
 
@@ -85,7 +114,7 @@ For normal maps and vanishing points, the coordinate system of the camera in Hol
 
 ## Low-level 3D Representations
 
-We provide renderings of depth maps and normal maps for each perspective image. The unit of depth maps is the meter. Renderings with the suffix `_HD` have more details than the renderings with the `_LD` suffix. *We note that the low-level represesntaions currently do not include moving objects such as cars and pedestrians.*
+We provide renderings of depth maps and normal maps for each perspective image. The unit of depth maps is the meter, which is the same as the unit of the CAD model. Renderings with the suffix `_HD` have more details than the renderings with the `_LD` suffix. *We note that the low-level represesntaions currently do not include moving objects such as cars and pedestrians.*
 
 ## Vanishing Points
 
