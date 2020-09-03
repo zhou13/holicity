@@ -36,21 +36,21 @@ The following code snippet converts a point in the space of the CAD model to the
 
 ```python        loc, panoYaw, tiltYaw, tiltPitch = x[:3], x[3], x[4], x[5]
 from vispy.util.transforms import rotate
-def world_to_panorama(xyz, loc, pano_yaw, tilt_yaw, tilt_pitch):
-    """Project xyz (a point in the space of the CAD model) to the space of a local viewpoint."""
+def panorama_to_world(d, loc, pano_yaw, tilt_yaw, tilt_pitch):
+    """Convert d \in S^2 (direction of a ray on the panorama) to the world space."""
     axis = np.cross([np.cos(pano_yaw), np.sin(tilt_yaw), 0], [0, 0, 1])
     R = (rotate(pano_yaw, [0, 0, 1]) @ rotate(tilt_pitch, axis))[:3, :3]
-    return xyz @ R
+    return d @ R + loc
 ```
 
 The following code snippet draw the point in the space of a local viewpoint onto the corresponding panorama image.
 
 ```python
-def draw_point_on_panorama(pp, panorama_image):
-    """Draw pp (in the space of a local viewpoint) on the panorama image"""
-    pp = pp / LA.norm(pp)
-    pitch = math.atan(pp[2] / LA.norm(pp[:2]))
-    yaw = math.atan2(pp[0], pp[1])
+def draw_point_on_panorama(d, panorama_image):
+    """Draw d (direction of a ray on the panorama) on the panorama image"""
+    d = d / LA.norm(d)
+    pitch = math.atan(d[2] / LA.norm(d[:2]))
+    yaw = math.atan2(d[0], d[1])
     x, y = (yaw + np.pi) / (np.pi * 2), (pitch + np.pi / 2) / np.pi
     plt.imshow(panorama_image)
     plt.scatter(x * img.shape[1], (1 - y) * img.shape[0])
