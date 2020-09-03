@@ -7,6 +7,10 @@ This repository contains instructions and demo code of the paper:  [Yichao Zhou]
 
 Please visit our [project website](https://holicity.io) for the overview and download links of the HoliCity dataset. We provide sample data in the folder [sample-data](https://github.com/zhou13/holicity/tree/master/sample-data).
 
+## Splits
+
+We provide training, validation, and test sets for evaluating your algorithms. Some ground truth labels of the test set (such as depth and normal maps) are reserved for future competition and not available at this time.  You can report the performance on the validation set if you want to use our data split.
+
 ## Panoramas
 
 The panorama images are stored with [equirectangular projection](https://en.wikipedia.org/wiki/Equirectangular_projection).
