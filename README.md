@@ -17,7 +17,7 @@ The panorama images are stored with [equirectangular projection](https://en.wiki
 
 ## Images
 
-We provide perspective renderings of panorama images. The field of views of all the current renderings are 90 degrees and the principal point is at the center of the image.
+We provide perspective renderings of panorama images. The field of views of all the current renderings are 90 degrees and the principal point is at the center of the image.  **We provide the OpenGL code that renders panorama images to perspective images in [panorama2perspective.py](panorama2perspective.py)**
 
 ## Geolocations
 
@@ -27,14 +27,14 @@ HoliCity provides refined geolocation of each viewpoint and its corresponding pe
 
 | Entry        | Explanations                                                 |
 | :----------- | ------------------------------------------------------------ |
-| `loc`        | The xyz coordinate of the viewpoints in the space of the CAD models. We provide utility functions `model2gps` and `gps2model` in `gps_london.py` for converting between the xy coordinate of the CAD model and the WGS84 coordinate, i.e., longitude and latitude. The z coordinate represents the distance between the camera and the terrain. |
+| `loc`        | The xyz coordinate of the viewpoints in the space of the CAD models. We provide utility functions `model2gps` and `gps2model` in [gps_london.py](gps_london.py) for converting between the xy coordinate of the CAD model and the WGS84 coordinate, i.e., longitude and latitude. The z coordinate represents the distance between the camera and the terrain. |
 | `pano_yaw`   | Yaw of the panorama camera (panorama center) with respect to the north. |
 | `tilt_yaw`   | Tilt direction of the panorama camera with respect to the north. Such tilt exists because the street-view car might be on a slope. |
 | `tilt_pitch` | Tilt degree of the panorama camera.                          |
 
 The following code snippet converts a point in the space of the CAD model to the space of a local viewpoint.
 
-```python        loc, panoYaw, tiltYaw, tiltPitch = x[:3], x[3], x[4], x[5]
+```python
 from vispy.util.transforms import rotate
 def panorama_to_world(d, loc, pano_yaw, tilt_yaw, tilt_pitch):
     """Convert d \in S^2 (direction of a ray on the panorama) to the world space."""
@@ -109,7 +109,7 @@ We segment the surface of the 3D CAD model based on (approximate) local curvatur
 
 For each surface segment, we approximate it with a 3D plane whose equation is <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w%5ETx&amp;plus;1%3D0">. We provide the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> for the fitted plane of each surface segment.  The plane fitting is done on the global level of the CAD model.  Surface segments and planes exclude trees.
 
-`plane.py`  provides the example code showing how to parse the plane parameters and draw depth maps and normal maps accordingly. We note that there is some difference between the ground truth depth maps and the depth maps derived from the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> due to the error from global plane fitting, especially for large planes such as the ground.
+[plane.py](plane.py) provides the example code showing how to parse the plane parameters and draw depth maps and normal maps accordingly. We note that there is some difference between the ground truth depth maps and the depth maps derived from the parameter <img src="https://latex.codecogs.com/gif.latex?%5Cinline%20w"> due to the error from global plane fitting, especially for large planes such as the ground.
 
 ## Low-level 3D Representations
 
