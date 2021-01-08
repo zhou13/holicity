@@ -1,5 +1,5 @@
 # HoliCity: A City-Scale Data Platform for Learning Holistic 3D Structures
-<img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/teaser.png">
+<img src="https://holicity.io/images/teaser.png">
 
 This repository contains instructions and demo code of the paper:  [Yichao Zhou](https://yichaozhou.com/), [Jingwei Huang](http://haozhi.io/), [Xili Dai](https://github.com/Delay-Xili), [Linjie Luo](http://linjieluo.com/), [Zhili Chen](http://www.zhilichen.com/), [Yi Ma](https://people.eecs.berkeley.edu/~yima). ["HoliCity: A City-Scale Data Platform for Learning Holistic 3D Structures"](https://arxiv.org/abs/2008.03286). Technical Report. [arXiv:2008.03286](https://arxiv.org/abs/2008.03286) [cs.CV].
 
@@ -21,7 +21,7 @@ We provide perspective renderings of panorama images. The field of views of all 
 
 ## Geolocations
 
-<img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/map_big.png">
+<img src="https://holicity.io/images/map_big.png">
 
 HoliCity provides refined geolocation of each viewpoint and its corresponding perspective images in the coordinate of WGS-84, i.e., the longitude and latitude. The above figure shows the viewpoints on Google Maps. The following table summarizes the meanings of entries of geolocation annotations that are specific to **the viewpoints (panoramas)**.
 
@@ -101,7 +101,7 @@ Currently, [AccuCities](https://www.accucities.com/new-3d-london-samples-cover-f
 
 ## Holistic Surface Segmentation
 
-<img src="https://people.eecs.berkeley.edu/~zyc/holicity/images/surface-segmentations-pazo2.jpg"/>
+<img src="https://holicity.io/images/surface-segmentations-pazo2.jpg"/>
 
 We segment the surface of the 3D CAD model based on (approximate) local curvature.  The **reference MaskRCNN implementation** used in our paper can be found [here (HoliCity-MaskRCNN)](https://github.com/Delay-Xili/HoliCity-MaskRCNN).  You should be able to use it to reproduce the results of our paper.
 
