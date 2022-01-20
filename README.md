@@ -97,7 +97,7 @@ def lookat(position, forward, up=[0, 1, 0]):
 
 ## City CAD Models
 
-Currently, [AccuCities](https://www.accucities.com/new-3d-london-samples-cover-full-square-kilometer/) provides freely available CAD models for an area of 1 km<sup>2</sup>  in the London city to the public. We label all the viewpoints of HoliCity in this area with suffix `_HD`. If you are using HoliCity for research purposes, you might want to contact with AccuCities and apply for other city models. The unit of the CAD models is the meter.
+Currently, [AccuCities](https://www.accucities.com/new-3d-london-samples-cover-full-square-kilometer/) provides freely available CAD models for an area of 1 km<sup>2</sup>  in the London city to the public. We label all the viewpoints of HoliCity in this area with suffix `_HD`. If you are using HoliCity for research purposes, you might want to contact with AccuCities and apply for other city models. At the time of release, the unit of the HoliCity CAD model was meter. However,  it recently was changed to millimeters.  Read [Issue 13](https://github.com/zhou13/holicity/issues/13) if you try to render the CAD model and have mis-matching issues between the HoliCity CAD model and this dataset.
 
 ## Holistic Surface Segmentation
 
